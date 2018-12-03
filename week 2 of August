@@ -1,0 +1,54 @@
+Python Implementation of Baseline Item-Based Collaborative Filtering
+Related article: Comparison of User-Based and Item-Based Collaborative Filtering
+
+Introduction
+In the past decade, the websites on the internet have been growing explosively, and the trend of the growth is likely to keep for a long time. 
+As a result, it brings extremely rich and various content to people; however, it also produces a tremendous amount of options for users which makes it acutely difficult for users to make a decision. 
+Therefore, Recommender Systems (RS) — a personalised information filtering technology have been introduced to reduce the number of options to a handful that interest the specific user.
+
+Generally speaking, there are three approaches of recommender systems — Content-Based filtering (CBF), Collaborative filtering (CF) and Hybrid which combines the first two approaches. 
+There are three must-known baseline recommender systems which are one baseline CBF method — Content-Based Recommender System (CBRS), and two baseline CF methods — User-Based Collaborative Filtering (UBCF) and Item-Based Collaborative Filtering (IBCF).
+
+This tutorial focuses on Python implementation of IBCF on the MovieLens Small (MS) dataset. 
+The MS dataset contains 100,000 ratings and 1,300 tag applications applied to 9,000 movies by 700 users. 
+Based on the chosen dataset, the objective of the RS is to select the top-10 rated movies from 9,000 movies of a specific user which will be suggested to the user; 
+The implementation can be split into three parts — first, build an item-to-item matrix which will be used for prediction; second, predict the ratings of movies, that have not been rated by a given user; 
+last but not least, sort the movies ordered by the ratings of the given user and promote the top-10 movies to the user.
+
+Python Implementation
+The Python implementation of IBCF is comprised of four steps which are elaborated as follows. 
+The full version of the python code has been put into an IPython Notebook shared on Github with the URL of https://github.com/wwwbbb8510/baseline-rs. (For readers who are familiar with IPython Notebook, it would be good to run the code instead of reading the Code Snippets)
+
+Step 1: Load the dataset
+The MS dataset is originally hosted on the grouplens.org with the URL of https://grouplens.org/datasets/movielens/; 
+however, they have been uploaded to the aforementioned Github repository as well. 
+After downloading and extracting the dataset, pandas library is used to load the dataset to pandas dataframe by just one line of code shown in Code Snippet 1.
+
+Step 2: Build item-to-item similarity matrix
+Before calculating the similarity matrix, a normalisation process for ratings needs to be done because the optimism level for different users may differ, e.g. the average rating of one user lies at a scale of 2; while another user’s average rating may be 4, which mean the first user’s rating of 2 is similar as the second user’s rating of 4. In this tutorial, the normalisation method is to calculate the average ratings for each user and subtract the average value from the actual ratings as adjusted ratings, which is implemented in the Code Snippet 3.
+
+Step 3: Predict ratings for unrated movies for a given user
+The ratings are predicted based on Formula 2 and the explanation of Formula 2 is shown in Description 1. The formula is implemented in a Python function shown in Code Snippet 5, but in order to get prepared for the recommendation step, the prediction function need to be iteratively applied on all of the unrated movies for the given user.
+
+Step 4: Obtain the recommended movies
+As the ratings of unrated movies by the given user have been predicted at the above step, a complete rating list of all the movies by the user has been obtained. Therefore, it is very easy to find the top-ranked movies which constitute the recommended movies that are likely to attract the user.
+
+Extra explanation of the configuration variable in the full version in IPython Notebook
+The variable environment: When running the IPython Notebook on the local environment, the variable needs to be set ‘local’; otherwise the value should be ‘gcolab’. The value decides how the dataset will be loaded — For the local environment, the dataset will be loaded from a local drive; while for Google Colab, the data will be loaded from Google Drive.
+
+The variable debug_mode: For the purpose of debugging and demonstration, a slice of the dataset, with the joint conditions of movie ID less than 100 and user ID less than 100, is used when debug_mode variable is set to True; Otherwise the whole dataset will be used.
+
+The variable load_existing_w_matrix: Since building the matrix comprises most of the computational cost, we do not want the building process run every time. Therefore, the built item-to-item matrix is saved in a file as a Python pickle object which can be loaded to the memory very quickly. When the value of this variable is True, the matrix will be loaded from an existing pickle file; Otherwise, the matrix will be built from scratch.
+
+Result Analysis
+Instead of evaluating the quality of the recommended movies, the evaluation of the predicted ratings is performed in this tutorial because it is hard to quantify the interesting level of the recommended movies to a specific user, but the predicted ratings play a critical role in producing the recommendation list. Since the predicted ratings are decimal values in a continuous space, while the real ratings are discrete values, the predicted ratings hardly achieve exact matches with the real ratings. Therefore, an alternative way of converting the real value prediction to a binary classification by changing the ratings to positive and negative is utilised, and the precision and recall are calculated and reported in this tutorial.
+
+By splitting the MS dataset into training set and test set by 70% and 30%, respectively, the precision of 94.23% and the recall of 93.63% are achieved. It can be observed that the implemented IBCF method works reasonably well in terms of predicting the ratings which the recommendation relies on, so the personalised movie list selected for the user should be interesting for the specific user.
+
+In regard to the computational cost, it takes about one week to build the item-to-item similarity matrix for the MS dataset on a single server, which is quite a long time, but still within our expectation, because most of the RS applications require heavy computation and the experiment just proved it one more time.
+
+Conclusion
+The baseline IBCF looks quite simple in terms of the algorithm and the formulas; while it does require a decent amount of work to implement the algorithm. 
+From the evaluation result, the baseline IBCF method works effectively regarding the prediction of ratings, which builds a solid foundation for the recommendation step. 
+However, the implementation is not efficient as it takes about a couple of weeks to build the item-to-item matrix on a small dataset. 
+Real-life RS applications usually build on a much larger dataset, so it would be great to improve the efficiency of the implementation, e.g. by using distributed compute instead of a single server.
