@@ -1,0 +1,7 @@
+지난 20여 년간 많은 추천 알고리즘에 대한 많은 연구가 수행되었다. 
+연구자들은 사용자(user)의 아이템(item)에 대한 선호를 나타내는 사용자-아이템 행렬(이하 U-I 행렬)이 추천에 가장 중요하다는 것을 발견하였다. 
+특별히 U-I 행렬은 추천 시스템에서 가장 탁월한 프레임워크인 협업 필터링 (collaborative filtering, 이하 CF) 기법에 대한 기초를 제공한다. 
+최근에 U-I 행렬 이외의 다양한 추가적인 정보를 활용하는 새로운 추천 방법이 등장하였다. 
+이러한 정보는 그 원천에 따라 사용자와 아이템에 관한 부가 정보(side information)와 사용자와 아이템 간의 상호작용과 관련된 상호작용 정보(interaction information)로 분류할 수 있다. 
+전자를 기반으로 메모리 기반 CF(Memory-based CF), 모델 기반 CF(Model-based CF), 그래프 기반 CF 등의 알고리즘이 제안되어 왔으며, 후자를 기반으로 시간 의존적 CF(time-dependent CF), 텐서 분해(Tensor Factorisation; TF), 인수분해 기계(Factiruzation Machines; FM), 그래프 기반 접근 등의 알고리즘이 제안 되었다. 
+향후 CF의 이론적 발전은 새로운 조건과 작업이란 측면에서 소셜 추천(Social Recommendation), 그룹 추천(Group Recommendation), 롱 테일 추천(Long Tail Recommendation), 크로스 도메인 추천(Cross-Domain Recommendation) 등의 과제가 있으며, 새로운 관점과 모델이란 측면에서 검색, 상호작용, 경제학 등과 연관된 과제가 예상된다.
